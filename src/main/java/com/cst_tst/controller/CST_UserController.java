@@ -34,17 +34,21 @@ public class CST_UserController {
 		if(!validate(user)) {
 			return new RestResponse(HttpStatus.NOT_ACCEPTABLE.value(), "User not valid");
 		}
-		
 		this.userService.save(user);
+		
 		return new RestResponse(HttpStatus.OK.value(),"OK");
 	}
 	
 	private boolean validate(CST_UserModel user) {
+		boolean isValid = true;	
 		
-		if(StringUtils.isNullOrEmpty(user.getUsername())) {
-			return false;
-		}
+		isValid = isValid & !StringUtils.isEmptyOrWhitespaceOnly(user.getUsername());
+		isValid = isValid & !StringUtils.isEmptyOrWhitespaceOnly(user.getFirstName());
+		isValid = isValid & !StringUtils.isEmptyOrWhitespaceOnly(user.getLastName());
+		isValid = isValid & !StringUtils.isEmptyOrWhitespaceOnly(user.getEmail());
+		isValid = isValid & !StringUtils.isEmptyOrWhitespaceOnly(user.getPassword());
+		isValid = isValid & !StringUtils.isEmptyOrWhitespaceOnly(user.getPhone1());		
 		
-		return true;
+		return isValid;
 	}
 }
